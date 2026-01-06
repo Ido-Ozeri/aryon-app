@@ -1,0 +1,28 @@
+global:
+  db_credentials_secret: &db-credentials db-credentials
+  db_user: &db-user postgres
+  db_name: &db-name itemsdb
+  db_host: postgresql
+
+postgresql:
+  enabled: true
+  # Don't you just love Bitnami and their bs?
+  # https://github.com/bitnami/charts/issues/30850
+  global: 
+    security: 
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/postgresql
+    tag: 17.4.0-debian-12-r3
+  fullnameOverride: postgresql
+  primary:
+    initdb:
+      scriptsConfigMap: postgres-init-scripts
+  auth:
+    username: *db-user
+    database: *db-name
+    existingSecret: *db-credentials
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: postgres-password

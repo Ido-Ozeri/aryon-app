@@ -1,0 +1,63 @@
+global:
+  db_credentials_secret: nil  # This should be overridden by the 'aryon-app' parent chart;
+                              # I'm only including it here to satisfy 'helm lint';
+
+defaults:
+  image: &default-image
+    tag: "1.0.0"
+    pullPolicy: Never  # Since we're on Minikube
+  resources: &default-resources
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  probes: &default-probes
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 10
+  port: &default-port 8000
+  envFrom: &default-envFrom
+  - configMapRef:
+      name: shared-config
+
+deployments:
+  audit-service:
+    replicaCount: 1
+    image:
+      <<: *default-image
+      repository: audit-service
+    port: *default-port
+    env: []
+    envFrom: *default-envFrom
+    resources: *default-resources
+    probes: *default-probes
+
+  items-service:
+    replicaCount: 1
+    image:
+      <<: *default-image
+      repository: items-service
+    port: *default-port
+    env: []
+    envFrom: *default-envFrom
+    resources: *default-resources
+    probes: *default-probes
+
+configmaps:
+  shared-config:
+    data:
+      AUDIT_SERVICE_URL: http://audit-service
+      ITEMS_SERVICE_URL: http://items-service
+      PORT: &default-port
+      
+services:
+  audit-service:
+    type: ClusterIP
+    port: 80
+    targetPort: *default-port
+
+  items-service:
+    type: ClusterIP
+    port: 80
+    targetPort: *default-port

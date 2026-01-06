@@ -1,0 +1,4 @@
+apiVersion: v2
+name: api-services
+description: A chart to deploy multiple Python API services
+version: 1.0.0

@@ -1,0 +1,5 @@
+api-services:
+  deployments:
+    audit-service:
+      image:
+        tag: 1.1.2

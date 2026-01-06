@@ -1,0 +1,13 @@
+apiVersion: v2
+name: aryon-app-bundle
+description: A Helm chart that bundles several Python Aryon services and a Postgresql DB.
+type: application
+version: 1.0.0
+dependencies:
+- name: postgresql
+  version: "16.4.15"
+  repository: https://charts.bitnami.com/bitnami
+  condition: postgresql.enabled
+- name: api-services
+  version: 1.0.0
+  repository: file://../api-services
