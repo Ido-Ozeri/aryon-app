@@ -27,7 +27,7 @@ This is an opinionated implementation of EKS, based on my own personal experienc
 
 ### EKS Addons
 
-- Since "EKS Custom Networking" requires the `ENIConfig` resources to be deployed BEFORE any nodegroups are created - and since the EKS module does not have built-in support for creating these resources - I passed an empty dictionary to the `eks_managed_node_groups` argument, and instead create them separately, which lets me control their dependencies. Same goes for the EKS Addons. I'm only installing the `vpc-cni` in the EKS module.
+- Since "EKS Custom Networking" requires the `ENIConfig` resources to be deployed BEFORE any nodegroups are created - and since the EKS module does not have built-in support for creating these resources - I passed an empty dictionary to the `eks_managed_node_groups` argument, and instead created them separately, which lets me control their dependencies. Same goes for the EKS Addons. I'm only installing the `vpc-cni` in the EKS module.
 
 ### Karpenter
 
