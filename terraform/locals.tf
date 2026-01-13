@@ -3,21 +3,6 @@ locals {
   vpc_cidr       = "10.0.0.0/19"
   secondary_cidr = "100.64.0.0/16"
 
-  # I'm using an assymetric subnet layout, as public subnets do not
-  # need an equal number of IP addresses as private subnets, this is 
-  # simply a waste of IP allocations; this division uses about 80% of
-  # the total addressses in the /19 range which leaves room for future growth;
-
-  # However, hardcoding the main CIDR block and the corresponding subnets
-  # is less than ideal; with my current employer I wrote a 'CIDR-MANAGER' 
-  # webserver in python that allocates unique blocks and also calculates 
-  # the subnets' layout to use the entire block in an optimal way; the 
-  # reason we're assigning unique CIDR blocks to each VPC is to avoid
-  # CIDR overlapping if peering is ever required;
-
-  # Using the CGNAT address space (100.64.0.0/16) provides plenty of 
-  # addresses to be used by pods in the cluster;
-
   # 2048 addresses each;
   private_subnets = [
     "10.0.0.0/21",
